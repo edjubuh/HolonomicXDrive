@@ -49,7 +49,3 @@ void HolonomicRadianOutput(float radians, float speed = 1, byte rotation = 0)
 	motor[rearLeft] = (byte)rearLeftOutput;
 	motor[rearRight] = (byte)rearRightOutput;
 }
-
-float HolonomicGetJoystick(TVexJoysticks joy_x, TVexJoysticks joy_y)
-{
-
