@@ -4,7 +4,7 @@
 //**-----------------------SUPPORT FUNCTIONS-----------------------------------**//
 
 float FindMaxFloat(float a, float b,  float c = (0), float d = (0), float e = (0),
-	  		float f = (0), float g = (0), float h = (0), float i = (0), float j = (0))
+float f = (0), float g = (0), float h = (0), float i = (0), float j = (0))
 {
 	float values[] = {a,b,c,d,e,f,g,h,i,j};
 	float maxValue = 0;
@@ -43,9 +43,25 @@ void HolonomicRadianOutput(float radians, float speed = 1, byte rotation = 0)
 	frontRightOutput *= speed;
 	rearLeftOutput *= speed;
 	rearRightOutput *= speed;
-
-	motor[frontLeft] = (byte)frontLeftOutput;
-	motor[frontRight] = (byte)frontRightOutput;
-	motor[rearLeft] = (byte)rearLeftOutput;
-	motor[rearRight] = (byte)rearRightOutput;
+	if(speed > 0)
+	{
+		motor[frontLeft] = (byte)frontLeftOutput;
+		motor[frontRight] = (byte)frontRightOutput;
+		motor[rearLeft] = (byte)rearLeftOutput;
+		motor[rearRight] = (byte)rearRightOutput;
+	}
+	else if (rotation > 20 || rotation < -20)
+	{
+		motor[frontLeft] = rotation;
+		motor[frontRight] = rotation;
+		motor[rearLeft] = rotation;
+		motor[rearRight] = rotation;
+	}
+	else
+	{
+		motor[frontLeft] = 0;
+		motor[frontRight] = 0;
+		motor[rearLeft] = 0;
+		motor[rearRight] = 0;
+	}
 }

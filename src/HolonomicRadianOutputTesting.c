@@ -10,6 +10,7 @@
 // should have a +PWM value corresponding to a clockwise rotation on the wheel.
 
 #include "HolonomicRadians.h";
+#include "HolonomicPolarJoystick.h";
 
 typedef enum {
 	left = 1,
@@ -20,6 +21,7 @@ typedef enum {
 task main()
 {
 	//Option 1: Use LCD Screen or Ch8 joystick buttons to cycle through all multiples of PI/4 for [0,2PI)
+	/*
 	bool leftLCDPressed = false;
 	bool rightLCDPressed = false;
 	bool leftJoyPressed = false;
@@ -31,81 +33,109 @@ task main()
 	bLCDBacklight = true;
 	while(true)
 	{
-		// Check the left LCD Button for changes
-		if(nLCDButtons == left && !leftLCDPressed)
-		{
-			radianMultiplier--;
-			leftLCDPressed = true;
-		}
-		else if(nLCDButtons != left) leftLCDPressed = false;
-
-		// Check the right LCD button for changes
-		if(nLCDButtons == right && !rightLCDPressed)
-		{
-			radianMultiplier++;
-			rightLCDPressed = true;
-		}
-		else if(nLCDButtons != right) rightLCDPressed = false;
-
-		// Check the left Ch 8 button for changes
-		if(vexRT[Btn8L] && !leftJoyPressed)
-		{
-			radianMultiplier--;
-			leftJoyPressed = true;
-		}
-		else if(!vexRT[Btn8L]) leftJoyPressed = false;
-
-		// Check the right Ch 8 button for changes
-		if((vexRT[Btn8R]) && !rightJoyPressed)
-		{
-			radianMultiplier++;
-			rightJoyPressed = true;
-		}
-		else if(!vexRT[Btn8R]) rightJoyPressed = false;
-
-		// Check the center LCD button for changes
-		if(nLCDButtons == center && centerLCDPressed == false) {
-			killSwitch = killSwitch ? false : true;
-			centerLCDPressed = true;
-		}
-		else if(nLCDButtons != center) centerLCDPressed = false;
-
-		// Check the right Ch8 Button for changes
-		if(vexRT[Btn8D] && !downJoyPressed)
-		{
-			killSwitch = killSwitch ? false : true;
-			downJoyPressed = true;
-		}
-		else if(!vexRT[Btn8D]) downJoyPressed = false;
-
-		// We want the values to cycle, so when we go beyond bounds, go to the start of the opposite bound
-		if(radianMultiplier > 7) radianMultiplier = 0;
-		if(radianMultiplier < 0) radianMultiplier = 7;
-
-
-		displayLCDCenteredString(0,"Cycling Holonomic");
-		switch(radianMultiplier)
-		{
-			case 0: displayLCDCenteredString(1,"Direction: 0"); 	 	break;
-			case 1: displayLCDCenteredString(1,"Direction: PI/4"); 	break;
-			case 2: displayLCDCenteredString(1,"Direction: PI/2"); 	break;
-			case 3: displayLCDCenteredString(1,"Direction: 3PI/4"); break;
-			case 4: displayLCDCenteredString(1,"Direction: PI"); 		break;
-			case 5: displayLCDCenteredString(1,"Direction: 5PI/4"); break;
-			case 6: displayLCDCenteredString(1,"Direction: 3PI/2"); break;
-			case 7: displayLCDCenteredString(1,"Direction: 7PI/4"); break;
-			default: displayLCDCenteredString(1,"ERROR");
-		}
-		if(!killSwitch) HolonomicRadianOutput((0+((float)radianMultiplier*(PI/4))),1,0); // the last 1,0 is optional, as it is defaulted to those vals
-		if(killSwitch)
-		{
-			motor[frontLeft] = 0;
-			motor[frontRight] = 0;
-			motor[rearRight] = 0;
-			motor[rearLeft] = 0;
-		}
+	// Check the left LCD Button for changes
+	if(nLCDButtons == left && !leftLCDPressed)
+	{
+	radianMultiplier--;
+	leftLCDPressed = true;
 	}
+	else if(nLCDButtons != left) leftLCDPressed = false;
+
+	// Check the right LCD button for changes
+	if(nLCDButtons == right && !rightLCDPressed)
+	{
+	radianMultiplier++;
+	rightLCDPressed = true;
+	}
+	else if(nLCDButtons != right) rightLCDPressed = false;
+
+	// Check the left Ch 8 button for changes
+	if(vexRT[Btn8L] && !leftJoyPressed)
+	{
+	radianMultiplier--;
+	leftJoyPressed = true;
+	}
+	else if(!vexRT[Btn8L]) leftJoyPressed = false;
+
+	// Check the right Ch 8 button for changes
+	if((vexRT[Btn8R]) && !rightJoyPressed)
+	{
+	radianMultiplier++;
+	rightJoyPressed = true;
+	}
+	else if(!vexRT[Btn8R]) rightJoyPressed = false;
+
+	// Check the center LCD button for changes
+	if(nLCDButtons == center && centerLCDPressed == false) {
+	killSwitch = killSwitch ? false : true;
+	centerLCDPressed = true;
+	}
+	else if(nLCDButtons != center) centerLCDPressed = false;
+
+	// Check the right Ch8 Button for changes
+	if(vexRT[Btn8D] && !downJoyPressed)
+	{
+	killSwitch = killSwitch ? false : true;
+	downJoyPressed = true;
+	}
+	else if(!vexRT[Btn8D]) downJoyPressed = false;
+
+	// We want the values to cycle, so when we go beyond bounds, go to the start of the opposite bound
+	if(radianMultiplier > 7) radianMultiplier = 0;
+	if(radianMultiplier < 0) radianMultiplier = 7;
+
+
+	displayLCDCenteredString(0,"Cycling RadPI/4");
+	switch(radianMultiplier)
+	{
+	case 0: displayLCDCenteredString(1,"Direction: 0"); 	 	break;
+	case 1: displayLCDCenteredString(1,"Direction: PI/4"); 	break;
+	case 2: displayLCDCenteredString(1,"Direction: PI/2"); 	break;
+	case 3: displayLCDCenteredString(1,"Direction: 3PI/4"); break;
+	case 4: displayLCDCenteredString(1,"Direction: PI"); 		break;
+	case 5: displayLCDCenteredString(1,"Direction: 5PI/4"); break;
+	case 6: displayLCDCenteredString(1,"Direction: 3PI/2"); break;
+	case 7: displayLCDCenteredString(1,"Direction: 7PI/4"); break;
+	default: displayLCDCenteredString(1,"ERROR");
+	}
+	if(!killSwitch) HolonomicRadianOutput(((float)radianMultiplier*(PI/4)),1,0); // the last 1,0 is optional, as it is defaulted to those vals
+	else if(killSwitch)
+	{
+	motor[frontLeft] = 0;
+	motor[frontRight] = 0;
+	motor[rearRight] = 0;
+	motor[rearLeft] = 0;
+	}
+	}
+	*/
 	// End of Option 1
 
 	// Option 2: Full Joystick Control
+
+	PolarJoystick joystick;
+	while(true)
+	{
+		clearLCDLine(1);
+	byte x_val = abs(vexRT[Ch1]) > 20 ? vexRT[Ch1] : 0;
+	byte y_val = abs(vexRT[Ch2]) > 20 ? vexRT[Ch2] : 0;
+		joystick.radians = (PI/2) - atan2(y_val,x_val);
+		float speed = sqrt((abs(y_val) * abs(y_val)) + (abs(x_val) * abs(x_val)));
+		speed = speed/127;
+		if(speed > 1) speed = 1;
+		joystick.speed = speed;
+		HolonomicRadianOutput(joystick.radians, joystick.speed,-vexRT[Ch4]);
+		displayLCDNumber(1,0,(radiansToDegrees(joystick.radians)));
+		wait1Msec(10);
+	}
+	//End of Option 2
+
+	// Debugging Option 3: Runs the "traditional" holonomic code (no trig function). Should be used for determining hardware vs software issues
+	/*
+	while(true) {
+	motor[rearRight] = vexRT[Ch2] - vexRT[Ch4] - vexRT[Ch1];
+	motor[frontRight] = vexRT[Ch2] - vexRT[Ch4] + vexRT[ch1];
+	motor[frontLeft] = -vexRT[Ch2] + vexRT[Ch4] - vexRT[Ch1];
+	motor[rearLeft] = -vexRT[Ch2] + vexRT[Ch4] + vexRT[Ch1];
+	}
+	*/
 }
