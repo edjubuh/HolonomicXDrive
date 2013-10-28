@@ -30,28 +30,29 @@ float f = (0), float g = (0), float h = (0), float i = (0), float j = (0))
 void HolonomicRadianOutput(float radians, float speed = 1, byte rotation = 0)
 {
 	// Please refer to README.txt for a full explanation of the formulas used.
-	float frontLeftOutput 	= -maxMotorSpeed * cos(PI/4 - radians),
-				frontRightOutput 	=  maxMotorSpeed * cos(PI/4 + radians),
-				rearRightOutput 	=  maxMotorSpeed * cos(PI/4 - radians),
-				rearLeftOutput		= -maxMotorSpeed * cos(PI/4 + radians);
-
-	frontLeftOutput += rotation;
-	frontRightOutput += rotation;
-	rearRightOutput += rotation;
-	rearLeftOutput += rotation;
-
-
-	float maxOutput = FindMaxFloat(frontLeftOutput, frontRightOutput, rearRightOutput, rearLeftOutput);
-	// The goal is to rescale all values to -127<=out<=127. See README.txt for algebraic explanation.
-	speed *= (maxMotorSpeed / maxOutput);
-
-
-	frontLeftOutput *= speed;
-	frontRightOutput *= speed;
-	rearLeftOutput *= speed;
-	rearRightOutput *= speed;
 	if(speed > 0)
 	{
+		float frontLeftOutput 	= -maxMotorSpeed * cos(PI/4 - radians),
+		frontRightOutput 	=  maxMotorSpeed * cos(PI/4 + radians),
+		rearRightOutput 	=  maxMotorSpeed * cos(PI/4 - radians),
+		rearLeftOutput		= -maxMotorSpeed * cos(PI/4 + radians);
+
+		frontLeftOutput += rotation;
+		frontRightOutput += rotation;
+		rearRightOutput += rotation;
+		rearLeftOutput += rotation;
+
+
+		float maxOutput = FindMaxFloat(frontLeftOutput, frontRightOutput, rearRightOutput, rearLeftOutput);
+		// The goal is to rescale all values to -127<=out<=127. See README.txt for algebraic explanation.
+		speed *= (maxMotorSpeed / maxOutput);
+
+
+		frontLeftOutput *= speed;
+		frontRightOutput *= speed;
+		rearLeftOutput *= speed;
+		rearRightOutput *= speed;
+
 		motor[frontLeft] = (byte)frontLeftOutput;
 		motor[frontRight] = (byte)frontRightOutput;
 		motor[rearLeft] = (byte)rearLeftOutput;
