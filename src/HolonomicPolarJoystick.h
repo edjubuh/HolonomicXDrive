@@ -7,18 +7,17 @@ typedef struct
 	float speed;
 } PolarJoystick;
 
-void getValues(PolarJoystick &joy, TVexJoysticks joy_x, TVexJoysticks joy_y) {
+void getPolarJoy(float *radians, float *speed, TVexJoysticks joy_x = Ch2, TVexJoysticks joy_y = Ch1) {
 	byte x_val = vexRT[joy_x];
 	byte y_val = vexRT[joy_y];
 	if((abs(x_val) < 20) && (abs(y_val) < 20)) {
-		joy.radians = 0;
-		joy.speed = 0;
+		*radians = 0;
+		*speed = 0;
 	}
 	else {
-		joy.radians = (PI/2)-atan2(y_val,x_val);
-		float speed = sqrt((abs(y_val) * abs(y_val)) + (abs(x_val) * abs(x_val)));
-		speed = speed/127;
-		if(speed > 1) speed = 1;
-		joy.speed = speed;
+		*radians = (PI/2)-atan2(y_val,x_val);
+		float *speed = sqrt((abs(y_val) * abs(y_val)) + (abs(x_val) * abs(x_val)));
+		*speed = *speed/127;
+		if(speed > 1) *speed = 1;
 	}
 }
