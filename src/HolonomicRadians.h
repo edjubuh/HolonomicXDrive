@@ -33,9 +33,9 @@ void HolonomicRadianOutput(float radians, float speed = 1, byte rotation = 0)
 	if(speed > 0)
 	{
 		float frontLeftOutput 	= -maxMotorSpeed * cos(PI/4 - radians),
-		frontRightOutput 	=  maxMotorSpeed * cos(PI/4 + radians),
-		rearRightOutput 	=  maxMotorSpeed * cos(PI/4 - radians),
-		rearLeftOutput		= -maxMotorSpeed * cos(PI/4 + radians);
+					frontRightOutput 	=  maxMotorSpeed * cos(PI/4 + radians),
+					rearRightOutput 	=  maxMotorSpeed * cos(PI/4 - radians),
+					rearLeftOutput		= -maxMotorSpeed * cos(PI/4 + radians);
 
 		frontLeftOutput += rotation;
 		frontRightOutput += rotation;
@@ -91,9 +91,9 @@ void getPolarJoy(float *radians, float *speed, TVexJoysticks joy_x = Ch2, TVexJo
 		*speed = 0;
 	}
 	else {
-		*radians = (PI/2)-atan2(y_val,x_val);
-		float *speed = sqrt((abs(y_val) * abs(y_val)) + (abs(x_val) * abs(x_val)));
-		*speed = *speed/127;
-		if(speed > 1) *speed = 1;
+		*radians = atan2(y_val,x_val);
+		float tmpSpeed = sqrt((y_val * y_val) + (x_val * x_val));
+		*speed = tmpSpeed/127;
+		if(*speed > 1) *speed = 1;
 	}
 }
